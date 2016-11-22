@@ -1,6 +1,7 @@
 var roleFarmer = require('role.farmer');
 var roleUpgrader = require('role.upgrader');
-var testing = require('testing');
+var plotting = require('plotting');
+var roleBuilder = require('role.builder');
 
 module.exports.loop = function () {
 
@@ -18,15 +19,19 @@ module.exports.loop = function () {
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     //console.log('Builders: ' + builders.length);
 
-    testing.run();
+    plotting.run();
 
     if(farmers.length < 2) {
-        var newFarmerName = Game.spawns['BestS'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'farmer'});
+        var newFarmerName = Game.spawns['Spam'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'farmer'});
         console.log('Spawning new farmer: ' + newFarmerName);
     }
     if(upgraders.length < 4){
-        var newUpgraderName = Game.spawns['BestS'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'upgrader'});
+        var newUpgraderName = Game.spawns['Spam'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader'});
         console.log('Spawning new upgrader: ' + newUpgraderName);
+    }
+    if(builders.length < 3){
+      var newBuilderName = Game.spawns['Spam'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role:'builder'});
+      console.log('Spawning new builder: '+newBuilderName);
     }
 
     for(var name in Game.creeps) {
@@ -36,6 +41,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);
+        }
+        if(creep.memory.role == 'builder'){
+          roleBuilder.run(creep);
         }
     }
 }

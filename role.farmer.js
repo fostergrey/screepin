@@ -19,6 +19,9 @@ var roleFarmer = {
                 if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
+                if(targets[0].energy == targets[0].carryCapacity){
+                  creep.moveTo(Game.roomObject.Flag.IdleFarmers);
+                }
             }
         }
 	}
